@@ -8,6 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @Service
 @Log4j2
@@ -26,6 +28,14 @@ public class ProductServiceImpl implements ProductService {
         return productEntities.stream()
                 .map(Converter::convertFromEntity)
                 .toList();
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        log.info("=> Getting product by id: {}", id);
+        return productRepository.findById(id)
+                .map(Converter::convertFromEntity)
+                .orElseThrow(() -> new NoSuchElementException("Product with id " + id + " not found"));
     }
 
     @Override
