@@ -2,9 +2,11 @@ package com.microservices.productservice.services;
 
 import com.microservices.productservice.entities.Converter;
 import com.microservices.productservice.entities.ProductEntity;
+import com.microservices.productservice.exception.ProductServiceCustomException;
 import com.microservices.productservice.model.Product;
 import com.microservices.productservice.repositories.ProductRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("=> Getting product by id: {}", id);
         return productRepository.findById(id)
                 .map(Converter::convertFromEntity)
-                .orElseThrow(() -> new NoSuchElementException("Product with id " + id + " not found"));
+                .orElseThrow(() -> new ProductServiceCustomException("Product with id " + id + " not found", HttpStatus.NOT_FOUND.value()));
     }
 
     @Override
