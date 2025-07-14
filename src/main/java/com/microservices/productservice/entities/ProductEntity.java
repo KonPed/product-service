@@ -9,6 +9,7 @@ import lombok.Data;
 public class ProductEntity {
 
     @Id
+    @Column(name = "PRODUCT_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
 
