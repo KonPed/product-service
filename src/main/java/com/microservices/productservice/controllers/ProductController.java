@@ -32,4 +32,11 @@ public class ProductController {
     public ResponseEntity<Long> addProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
     }
+
+    @PutMapping("/reduceQuantity/{id}")
+    public ResponseEntity<Void> reduceQuantity(@PathVariable("id") long productId,
+                                               @RequestParam long quantity) {
+        productService.reduceQuantity(productId, quantity);
+        return ResponseEntity.ok().build();
+    }
 }

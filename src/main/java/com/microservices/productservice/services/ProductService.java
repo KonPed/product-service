@@ -10,4 +10,6 @@ public interface ProductService {
     List<Product> getAllProducts();
 
     Product getProductById(Long id);
+
+    void reduceQuantity(Long productId, Long quantity);
 }
