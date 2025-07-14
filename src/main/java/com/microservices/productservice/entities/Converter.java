@@ -14,6 +14,7 @@ public class Converter {
 
     public static Product convertFromEntity(ProductEntity productEntity) {
         Product product = new Product();
+        product.setProductId(productEntity.getProductId());
         product.setProductName(productEntity.getProductName());
         product.setPrice(productEntity.getPrice());
         product.setQuantity(productEntity.getQuantity());
