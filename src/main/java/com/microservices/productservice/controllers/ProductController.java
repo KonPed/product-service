@@ -4,6 +4,7 @@ import com.microservices.productservice.model.Product;
 import com.microservices.productservice.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @PreAuthorize("hasAuthority('Admin') || hasAuthority('Customer') || hasAuthority('internal')")
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") long productId) {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping
     public ResponseEntity<Long> addProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
