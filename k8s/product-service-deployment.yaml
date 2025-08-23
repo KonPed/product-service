@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-app
+  labels:
+    app: product-service-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service-app
+  template:
+    metadata:
+      name: product-service-app
+      labels:
+        app: product-service-app
+    spec:
+      containers:
+        - name: product-service-app
+          image: konped/product-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: CONFIG_SERVER_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: cloud-gateway-cm
+                  key: CONFIG_SERVER_INSTANCE_HOSTNAME
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-cm
+                  key: hostname
+      restartPolicy: Always
+      
